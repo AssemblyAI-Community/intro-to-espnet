@@ -43,7 +43,7 @@ files = os.listdir(path+'/audio')
 for file in files:
     if not file.endswith('.wav'):
         os.chdir(path+'/audio')
-        s.run(f"ffmpeg -i {file} {file.split('.')[0]}.wav", stdout=s.PIPE, text=True, shell=True)
+        s.run(f"ffmpeg -i {file} {file.split('.')[0]}.wav", shell=True, check=True, universal_newlines=False)
         os.chdir('../..')
         file = file.split('.')[0]+'.wav'
     text, est_rate = get_transcript(f'{path}/audio/{file}')
