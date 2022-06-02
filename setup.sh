@@ -23,11 +23,11 @@ echo "Cloning project folder ESPNet"
 git clone https://github.com/AssemblyAI-Examples/intro-to-espnet.git
 cd intro-to-espnet
 
-echo "Installing pip"
-yes | apt install python3-pip
-
 echo "Installing virtualenv"
 yes | apt install virtualenv
 
-
+echo "Creating virtualenv"
+yes | virtualenv venv -p /usr/bin/python3.6
+source venv/bin/activate
+pip install -r requirements.txt
 
