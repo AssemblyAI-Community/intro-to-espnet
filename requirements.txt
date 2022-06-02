@@ -1,2 +1,2 @@
 soundfile
-espnet_model_zoo
+espnet-model-zoo
