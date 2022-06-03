@@ -25,36 +25,39 @@ speech2text = Speech2Text(
     nbest=1
 )
 
+# Strips text of punctuation and makes it uppercase
 def text_normalizer(text):
-    # make everything uppercase
     text = text.upper()
-    # Replaces all punctuation in the sentence with null character
-    # First arguments don't do anything. Last argument replaced. Pass in all punctuation characters.
     return text.translate(str.maketrans('', '', string.punctuation))
 
 
-# My function
+# Generates and returns transcript given audio file path
 def get_transcript(path):
     speech, rate = soundfile.read(path)
     nbests = speech2text(speech)
-
     text, *_ = nbests[0]
     return text, rate
 
-
+# Set necessary paths
 path = os.path.join(os.getcwd(), 'egs')
 files = os.listdir(path+'/audio')
+# For every file in audio directory
 for file in files:
+   # Get transcript, converting to .wav if not a wav
     if not file.endswith('.wav'):
         os.chdir(path+'/audio')
         s.run(f"ffmpeg -i {file} {file.split('.')[0]}.wav", shell=True, check=True, universal_newlines=False)
         os.chdir('../..')
         file = file.split('.')[0]+'.wav'
-    text, est_rate = get_transcript(f'{path}/audio/{file}')
-    os.remove(f'{path}/audio/{file}')
+        text, est_rate = get_transcript(f'{path}/audio/{file}')
+        os.remove(f'{path}/audio/{file}')
+    else:
+        text, est_rate = get_transcript(f'{path}/audio/{file}')
 
+    # Fetch true transcript
     label_file = file.split('.')[0]+'.txt'
     with open(f'{path}/text/{label_file}', 'r') as f:
         true_text = f.readline()
+    # Print true transcript and hypothesis
     print(f"\n\nReference text: {true_text}")
     print(f"ASR hypothesis: {text_normalizer(text)}\n\n")
