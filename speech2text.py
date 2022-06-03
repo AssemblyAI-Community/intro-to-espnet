@@ -6,10 +6,14 @@ from espnet_model_zoo.downloader import ModelDownloader
 from espnet2.bin.asr_inference import Speech2Text
 
 
+# BEST MODEL:
+tag = "Shinji Watanabe/librispeech_asr_train_asr_transformer_e18_raw_bpe_sp_valid.acc.best"
+# SECOND BEST MODEL:
+#tag = 'Shinji Watanabe/spgispeech_asr_train_asr_conformer6_n_fft512_hop_length256_raw_en_unnorm_bpe5000_valid.acc.ave'
+# EXTREMELY POOR MODEL:
+#tag = "kamo-naoyuki/wsj"
+
 d = ModelDownloader()
-#"Shinji Watanabe/librispeech_asr_train_asr_transformer_e18_raw_bpe_sp_valid.acc.best"
-#"kamo-naoyuki/wsj"
-tag = 'Shinji Watanabe/spgispeech_asr_train_asr_conformer6_n_fft512_hop_length256_raw_en_unnorm_bpe5000_valid.acc.ave'
 speech2text = Speech2Text(
     **d.download_and_unpack(tag),
     device="cpu", #cuda if gpu
